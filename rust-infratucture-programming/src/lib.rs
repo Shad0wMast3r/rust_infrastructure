@@ -19,8 +19,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub fn main(){
-    let document=web_sys::window().unwrap().document().unwrap();
-    let body=document.body().unwrap();
+    let document=web_sys::window().unwrap().document().expect("global window does not exists");
+    let body=document.body().expect("expecting a document on window");
     //Math from Rust
     let x:i8=1; 
     let y:i8=2;
@@ -32,19 +32,15 @@ pub fn main(){
 
     //First Assign the nav container
     let google:String="www.google.com".to_string();
-    let apple:String="www.apple.com".to_string();
+    let apple="www.apple.com".to_string();
     let router:String="192.168.1.1".to_string();
     let navigation_links=[google,apple,router];
     let href=document.create_element("a").unwrap(); //THIS <> HTML
-    href.set_inner_html(&format!("{:?}", navigation_links.into_iter()));
+    href.set_inner_html(&format!("{}", navigation_links[1]));
     body.append_child(&href).unwrap(); //<>
 
     //Create a canvas element
     let canvas=document.create_element("div").unwrap();
     canvas.set_id("canvas");
     body.append_child(&canvas).unwrap();
-
-    
-
-    
 }//end of main
